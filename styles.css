@@ -127,6 +127,61 @@
     outline-offset: 4px;
   }
   
+  /* Two buttons share a row; wrap to stacked on narrow screens. */
+  .hero__actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  /* Expanding contact details, revealed beneath the buttons. */
+  .contact {
+    max-width: 420px;
+    margin: 1.8rem auto 0;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  
+  .contact.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .contact__eyebrow {
+    margin: 0 0 0.6rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--came-lit);
+  }
+  
+  .contact__text {
+    margin: 0 0 0.5rem;
+    color: var(--light);
+    opacity: 0.92;
+  }
+  
+  .contact__email {
+    color: var(--light);
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(226, 185, 107, 0.55);
+    padding-bottom: 1px;
+    transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  
+  .contact__email:hover {
+    color: var(--came-lit);
+    border-color: var(--came-lit);
+  }
+  
+  .contact__email:focus-visible {
+    outline: 2px solid var(--came-lit);
+    outline-offset: 3px;
+  }
+  
   /* ---------- Gallery ---------- */
   
   .gallery {
@@ -318,9 +373,11 @@
     .panel img,
     .lightbox,
     .lightbox__img,
+    .contact,
     .btn {
       transition: none !important;
     }
     .gallery { opacity: 1; transform: none; }
     .panel { opacity: 1; transform: none; }
+    .contact.is-revealed { opacity: 1; transform: none; }
   }

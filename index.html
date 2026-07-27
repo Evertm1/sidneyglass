@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sidney Glass Studio</title>
+  <link rel="icon" type="image/png" href="photos/sidneyglass-logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -19,9 +20,25 @@
     <div class="hero__inner">
       <p class="hero__eyebrow">Stained glass &middot; Seattle</p>
       <h1 class="hero__title">Sidney Glass Studio</h1>
-      <button class="btn" id="viewGalleryBtn" aria-controls="gallery" aria-expanded="false">
-        View gallery
-      </button>
+      <div class="hero__actions">
+        <button class="btn" id="viewGalleryBtn" aria-controls="gallery" aria-expanded="false">
+          View gallery
+        </button>
+        <button class="btn" id="contactBtn" aria-controls="contact" aria-expanded="false">
+          Contact
+        </button>
+        <button class="btn" id="shopBtn" aria-controls="shop" aria-expanded="false">
+          Shop
+        </button>
+      </div>
+      <div class="contact" id="contact" aria-hidden="true" hidden>
+        <p class="contact__eyebrow">Get in touch</p>
+        <p class="contact__text">Reach out to Dana Sidney for inquiries and commissions.</p>
+        <a class="contact__email" href="mailto:danaesidney@gmail.com">danaesidney@gmail.com</a>
+      </div>
+      <div class="contact" id="shop" aria-hidden="true" hidden>
+        <p class="contact__text">Coming soon&hellip;</p>
+      </div>
     </div>
   </header>
 
@@ -29,7 +46,7 @@
   <main>
     <section class="gallery" id="gallery" aria-hidden="true" hidden>
       <div class="gallery__head">
-        <p class="gallery__eyebrow">Portfolio</p>
+        <p class="gallery__eyebrow">Gallery</p>
         <h2 class="gallery__title">Selected work</h2>
       </div>
       <div class="grid">
@@ -75,7 +92,41 @@
       var btn = document.getElementById("viewGalleryBtn");
       var gallery = document.getElementById("gallery");
 
+      // Expandable panels below the buttons (Contact, Shop).
+      // Defined up top so every button handler can collapse them.
+      var panels = [
+        { btn: document.getElementById("contactBtn"), panel: document.getElementById("contact") },
+        { btn: document.getElementById("shopBtn"), panel: document.getElementById("shop") }
+      ];
+
+      function closePanel(item) {
+        item.panel.classList.remove("is-revealed");
+        item.panel.setAttribute("aria-hidden", "true");
+        item.btn.setAttribute("aria-expanded", "false");
+        setTimeout(function () {
+          if (!item.panel.classList.contains("is-revealed")) item.panel.hidden = true;
+        }, 200);
+      }
+
+      function openPanel(item) {
+        item.panel.hidden = false;
+        item.panel.setAttribute("aria-hidden", "false");
+        item.btn.setAttribute("aria-expanded", "true");
+        void item.panel.offsetHeight;
+        item.panel.classList.add("is-revealed");
+      }
+
+      function closeAllPanels(except) {
+        panels.forEach(function (item) {
+          if (item !== except && item.panel.classList.contains("is-revealed")) {
+            closePanel(item);
+          }
+        });
+      }
+
       btn.addEventListener("click", function () {
+        // Any expanded panel collapses when the gallery opens.
+        closeAllPanels(null);
         // Reveal the gallery, then flip on the class that runs the staggered glow-in.
         gallery.hidden = false;
         gallery.setAttribute("aria-hidden", "false");
@@ -84,6 +135,20 @@
         void gallery.offsetHeight;
         gallery.classList.add("is-revealed");
         gallery.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      panels.forEach(function (item) {
+        item.btn.addEventListener("click", function () {
+          var isOpen = item.panel.classList.contains("is-revealed");
+          // Collapse every other panel first.
+          closeAllPanels(item);
+          // Then toggle the one that was clicked.
+          if (isOpen) {
+            closePanel(item);
+          } else {
+            openPanel(item);
+          }
+        });
       });
 
       // Lightbox
