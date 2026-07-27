@@ -1,0 +1,326 @@
+/* ============================================================
+   Sidney Glass Studio
+   Palette drawn from leaded glass: near-black lead, brass came,
+   warm white light. Color glows against dark, the way glass does.
+   ============================================================ */
+
+   :root {
+    --lead:      #131110;  /* deep charcoal, the surround */
+    --lead-2:    #1c1917;  /* raised panel background */
+    --came:      #b8863b;  /* brass / solder line accent */
+    --came-lit:  #e2b96b;  /* accent when backlit */
+    --light:     #fdfbf6;  /* warm white text */
+    --muted:     #a49b8d;  /* quiet captions / eyebrows */
+  
+    --maxw: 1180px;
+    --gap: 3px;            /* the came line between panels */
+  
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  
+  * { box-sizing: border-box; }
+  
+  html { scroll-behavior: smooth; }
+  
+  body {
+    margin: 0;
+    background: var(--lead);
+    color: var(--light);
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  img { display: block; max-width: 100%; }
+  
+  /* ---------- Hero ---------- */
+  
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-image: url("photos/background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    text-align: center;
+    overflow: hidden;
+  }
+  
+  /* Scrim keeps the white lettering legible over any image. */
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at center, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.55) 100%),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.2) 40%, rgba(0, 0, 0, 0.55));
+  }
+  
+  .hero__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+  }
+  
+  .hero__eyebrow {
+    margin: 0 0 1.4rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--light);
+    opacity: 0.85;
+  }
+  
+  .hero__title {
+    margin: 0 0 2.6rem;
+    font-family: "Marcellus", Georgia, serif;
+    font-weight: 400;
+    color: var(--light);
+    font-size: clamp(2.6rem, 8vw, 5.6rem);
+    line-height: 1.02;
+    letter-spacing: 0.04em;
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
+  }
+  
+  .hero__tagline {
+    margin: 1.2rem 0 2.6rem;
+    font-size: clamp(1rem, 2.2vw, 1.2rem);
+    font-weight: 400;
+    color: var(--light);
+    opacity: 0.9;
+    letter-spacing: 0.01em;
+  }
+  
+  /* Glass-like button: thin brass edge, translucent fill, lights on hover. */
+  .btn {
+    appearance: none;
+    cursor: pointer;
+    font-family: "Inter", sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--light);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(253, 251, 246, 0.55);
+    padding: 1rem 2.6rem;
+    border-radius: 2px;
+    backdrop-filter: blur(2px);
+    transition: background 0.4s var(--ease), border-color 0.4s var(--ease),
+      color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  }
+  
+  .btn:hover {
+    background: rgba(184, 134, 59, 0.16);
+    border-color: var(--came-lit);
+    color: var(--came-lit);
+    box-shadow: 0 0 30px rgba(226, 185, 107, 0.28);
+  }
+  
+  .btn:focus-visible {
+    outline: 2px solid var(--came-lit);
+    outline-offset: 4px;
+  }
+  
+  /* ---------- Gallery ---------- */
+  
+  .gallery {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: clamp(4rem, 9vw, 7rem) 1.25rem clamp(5rem, 10vw, 8rem);
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  }
+  
+  .gallery.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .gallery__head {
+    text-align: center;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+  
+  .gallery__eyebrow {
+    margin: 0 0 0.7rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--came);
+  }
+  
+  .gallery__title {
+    margin: 0;
+    font-family: "Marcellus", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    letter-spacing: 0.03em;
+  }
+  
+  /* Leaded panel grid: the brass background shows through as came lines. */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap);
+    background: var(--came);
+    padding: var(--gap);
+    border-radius: 3px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  }
+  
+  .panel {
+    appearance: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    background: var(--lead-2);
+    /* start dim, as if unlit */
+    opacity: 0;
+    transform: scale(0.985);
+    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  }
+  
+  .panel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.82) saturate(0.92);
+    transition: filter 0.5s var(--ease), transform 0.9s var(--ease);
+  }
+  
+  /* Panels illuminate in sequence once the gallery is revealed. */
+  .is-revealed .panel { opacity: 1; transform: scale(1); }
+  .is-revealed .panel:nth-child(1) { transition-delay: 0.05s; }
+  .is-revealed .panel:nth-child(2) { transition-delay: 0.13s; }
+  .is-revealed .panel:nth-child(3) { transition-delay: 0.21s; }
+  .is-revealed .panel:nth-child(4) { transition-delay: 0.29s; }
+  .is-revealed .panel:nth-child(5) { transition-delay: 0.37s; }
+  .is-revealed .panel:nth-child(6) { transition-delay: 0.45s; }
+  .is-revealed .panel:nth-child(7) { transition-delay: 0.53s; }
+  .is-revealed .panel:nth-child(8) { transition-delay: 0.61s; }
+  .is-revealed .panel:nth-child(9) { transition-delay: 0.69s; }
+  
+  /* Backlit on hover / focus: brightness and a soft brass halo. */
+  .panel:hover img,
+  .panel:focus-visible img {
+    filter: brightness(1.08) saturate(1.08);
+    transform: scale(1.04);
+  }
+  
+  .panel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 0 0 rgba(226, 185, 107, 0);
+    transition: box-shadow 0.4s var(--ease);
+    pointer-events: none;
+  }
+  
+  .panel:hover::after,
+  .panel:focus-visible::after {
+    box-shadow: inset 0 0 0 2px rgba(226, 185, 107, 0.65),
+      inset 0 0 40px rgba(226, 185, 107, 0.18);
+  }
+  
+  .panel:focus-visible {
+    outline: 2px solid var(--came-lit);
+    outline-offset: 3px;
+    z-index: 2;
+  }
+  
+  /* ---------- Lightbox ---------- */
+  
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: rgba(10, 9, 8, 0.92);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s var(--ease), visibility 0.35s var(--ease);
+  }
+  
+  .lightbox.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .lightbox__img {
+    max-width: min(92vw, 1000px);
+    max-height: 86vh;
+    border: 4px solid var(--came);
+    border-radius: 2px;
+    box-shadow: 0 0 80px rgba(0, 0, 0, 0.7);
+    transform: scale(0.96);
+    transition: transform 0.35s var(--ease);
+  }
+  
+  .lightbox.is-open .lightbox__img { transform: scale(1); }
+  
+  .lightbox__close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.4rem;
+    width: 3rem;
+    height: 3rem;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--light);
+    background: transparent;
+    border: 1px solid rgba(253, 251, 246, 0.35);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: border-color 0.3s var(--ease), color 0.3s var(--ease);
+  }
+  
+  .lightbox__close:hover {
+    color: var(--came-lit);
+    border-color: var(--came-lit);
+  }
+  
+  .lightbox__close:focus-visible {
+    outline: 2px solid var(--came-lit);
+    outline-offset: 3px;
+  }
+  
+  /* ---------- Responsive ---------- */
+  
+  @media (max-width: 760px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .hero__eyebrow { letter-spacing: 0.3em; }
+  }
+  
+  @media (max-width: 460px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+  
+  /* ---------- Reduced motion ---------- */
+  
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .gallery,
+    .panel,
+    .panel img,
+    .lightbox,
+    .lightbox__img,
+    .btn {
+      transition: none !important;
+    }
+    .gallery { opacity: 1; transform: none; }
+    .panel { opacity: 1; transform: none; }
+  }
